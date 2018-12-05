@@ -1,0 +1,150 @@
+﻿@model IEnumerable<Salutem_Version3.Models.EventBooking>
+@{
+    ViewBag.Title = "My Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}\
+<head>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet'
+          href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css'
+          type='text/css' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+
+    <script src='https://unpkg.com/es6-promise@4.2.4/dist/es6-promise.auto.min.js'></script>
+    <script src="https://unpkg.com/@Html.Raw("@")mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+</head>
+<h2>My Booking</h2>
+
+<div id='map' style='width: 80%; height: 500px;'></div>
+<script>
+    var data = [];
+    mapboxgl.accessToken = 'pk.eyJ1Ijoicm9oYW5yIiwiYSI6ImNqbDR3ZHVibzBiY20zd3FreXBpNXJ4dmEifQ.7RIsd0-Lhpg4ONWmYDA4DQ';
+    // eslint-disable-next-line no-undef
+
+    var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v10',
+        center: [145.031588, -37.889921],
+        zoom: 11
+    });
+
+    map.addControl(new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+        },
+        trackUserLocation: true
+    }));
+    map.on('mouseenter', 'places', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'places', function () {
+        map.getCanvas().style.cursor = '';
+    });
+</script>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Applicant.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Event.EventName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Event.EventDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Event.EventLocation)
+        </th>
+        <th>@Html.Label("Status")</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Applicant.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.EventDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.EventLocation)
+                <script>
+                        var data = [];
+                        map.on('click', function (e) {
+
+                            mapboxClient.geocoding.forwardGeocode({
+                                query: '@item.Event.EventLocation',
+                                autocomplete: false,
+                                limit: 1
+                            }).send().then(function (response) {
+                                if (response && response.body && response.body.features && response.body.features.length) {
+                                    var feature = response.body.features[0];
+                                    var el = document.createElement('div');
+                                    el.className = 'marker';
+                                    new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
+
+                                    var popup = new mapboxgl.Popup({ offset: [0, -5] })
+                                        .setLngLat(feature.geometry.coordinates)
+                                        .setHTML('<h6>' + '@item.Event.EventName' + '</h6><p>' + '@item.Event.EventLocation' + '</p>')
+                                        .setLngLat(feature.geometry.coordinates)
+                                        .addTo(map);
+
+                                    @*var feature1 = {
+                                        "type": "Feature",
+                                        "properties": {
+                                            "description": '@item.Description',
+                                            "icon": "circle-15"
+                                        },
+                                        "geometry": {
+                                            "type": "Point",
+                                            "coordinates": feature.center
+                                        }
+                                    };
+                                    data.push(feature1);
+                                    map.addLayer({
+                                        "id": "places",
+                                        "type": "symbol",
+                                        "source": {
+                                            "type": "geojson",
+                                            "data": {
+                                                "type": "FeatureCollection",
+                                                "features": feature
+                                            }
+                                        },
+                                        "layout": {
+                                            "icon-image": "{icon}",
+                                            "icon-allow-overlap": true
+                                        }
+                                    });
+                                        var features = map.queryRenderedFeatures(e.point, {
+                                            layers: ['Feature'] // replace this with the name of the layer
+                                        });
+
+                                    if (!features.length) {
+                                        return;
+                                    }*@
+                                }
+
+                            });
+                        });
+                </script>
+            </td>
+            <td>
+                Enrolled
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>*@
+        </tr>
+    }
+
+</table>

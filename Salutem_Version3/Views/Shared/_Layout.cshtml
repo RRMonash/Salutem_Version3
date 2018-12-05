@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Salutem</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/StyleSheet1.css")
+
+</head>
+
+<body> @*style="background-image: url('../../Content/Images/event_background.jpg');background-repeat: no-repeat;background-size: auto;"*@
+    @*<script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1&appId=257305918316284&autoLogAppEvents=1';
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>*@
+    <div class="navbar navbar-inverse navbar-fixed-top navcss navbar-expand-lg">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Salutem", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Create/Manage Events", "Index", "Events")</li>
+                    }
+                    @if (!User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Events", "UserIndex", "Events")</li>
+                    }
+                    @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("My Bookings", "MyBooking", "EventBookings")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    }
+                    <li>@Html.ActionLink("About Us", "About", "Home")</li>
+                </ul>
+
+                @Html.Partial("_LoginPartial")
+                <form class="form-inline my-2 my-lg-0 navbar-right" style="margin-top:7px;">
+                    <input class="form-control mr-sm-2 placeholder_font" type="text" placeholder="Search">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    @* Socail media implementattion *@
+
+    @*<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-size="large" data-mobile-iframe="true">
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a>@*src=sdkpreparse*@
+    @*</div>
+
+          <a href="https://twitter.com/share?ref_src=@HttpContext.Current.Request.Url.AbsoluteUri" class="twitter-share-button" data-show-count="false">Tweet</a>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+          <a href="https://plus.google.com/share?url=@HttpContext.Current.Request.Url.AbsoluteUri" onclick="javascript:window.open(this.href,
+        '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+              <img src="https://www.gstatic.com/images/icons/gplus-32.png" alt="Share on Google+" />
+          </a>
+          <script>
+              FB.ui({
+                  method: 'apprequests',
+                  message: 'Its ypur turn',
+                  to: 'raut145@gmail.com'
+              }, function (response) {
+                  console.log(response);
+              });
+          </script>*@
+
+    <div class="container panel-footer">
+        @RenderBody()
+        <footer class="navbar-fixed-bottom footer_custom">
+            <div class="row">
+                <div class="col-lg-3 footer_line">
+                    <h4>To Building a Stronger Community</h4>
+                </div>
+                <div class="col-sm-3 footer_line">
+                    <h4>Sign up to our regular Wholicious living emails</h4>
+                </div>
+                <div class="col-lg-5">
+                    <form class="form-inline my-2 my-lg-0 navbar-right" style=" margin-top: 5px; margin-right:5px;">
+                        <input class="form-control mr-sm-2 placeholder_font" type="text" placeholder="Enter your email address">
+                        <button class="btn btn-primary my-2 my-sm-0 " type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            @*<p>&copy; @DateTime.Now.Year - Salutem</p>*@
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

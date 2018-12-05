@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    @*style="background-color: ghostwhite;"*@
+    <div class="col-lg-10">
+        <div class="dietcard">
+            <div class="jumbotron">
+                <h1 class="display-3">Get  more  from  your  diet</h1>
+                <p class="lead"></p>
+                <hr class="my-4">
+                <picture>
+                    <source media="(max-width: 799px)" srcset="~/Content/Images/background-image-320w.jpg">
+                    <source media="(min-width: 800px)" srcset="~/Content/Images/background-image-640w.jpg">
+                    <img style="display: block;" src="~/Content/Images/background-img.jpg" alt="Card1 image">
+                </picture>
+
+                @*<img srcset="~/Content/compreessed images/image2-320w.jpg 320w,
+                    ~/Content/compreessed images/image2-640w.jpg 640w"
+                     sizes="(max-width: 320px) 280px,
+                    (max-width: 640px) 620px,
+                    1280px" src="~/Content/Images/" alt="Card1 image">*@
+
+                @*<img style="height: 200px; width: 50%; display: block;" src="~/Content/Images/background-img.jpg" alt="Card image"*@>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="dietcard">
+                    <div class="jumbotron">
+                        <h4 class="display-3">Vegetarian Eating</h4>
+                        <p class="lead"></p>
+                        <hr class="my-4">
+                        <img style="height:100%; width: 70%; display: block;" src="~/Content/Images/Nutritians.jpg" alt="Card image">
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="dietcard">
+                    <div class="jumbotron">
+                        <h4 class="display-3">Be in balance with your self</h4>
+                        <p class="lead"></p>
+                        <hr class="my-4">
+                        <img style="height: 20%; width: 50%; display: block;" src="~/Content/Images/HealthImage.jpg" alt="Card image">
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        @*@foreach (var item in Model)
+            {*@
+
+        <div class=" col-sm-2 card border-dark mb-3" style="max-width: 20rem; max-height:60rem;background-color:aquamarine">
+            <div class="card-header"><h6>Upcoming Events</h6></div>
+            <div class="card-body">
+                <h4 class="card-title">
+                    Health Improvement Program
+                </h4>
+                <hr> @*modelItem => item.Subject*@
+                <small style="text-align: right;">3 days ago</small>
+
+                <p class="card-text">Promotes a plant-based diet and regular exercise, would help participants to lose excess body weight and reduce other risk factors for developing type 2 diabetes.</p>
+                @*modelItem => item.Description*@
+                @if (User.IsInRole("Admin"))
+                {
+                    <h6><a href="#" role="navigation">Read More >> </a> | <a href="#" role="navigation">@Html.ActionLink("Manage Events", "Create", "EventInfoes") </a> </h6>
+                }
+                @if (User.IsInRole("Users"))
+                {
+                    <h6><a href="#" role="navigation">Read More >> </a> | <a href="#" role="navigation">@Html.ActionLink("Register", "Create", "EventRegistrations") </a> </h6>
+                }
+            </div>
+        </div>
+        <br /><br />
+        <div class=" col-sm-2 card border-dark mb-3" style="max-width: 20rem; max-height:60rem;background-color:darkgrey;margin-top:20px;">
+            <div class="card-header"><h6>Upcoming Events</h6></div>
+            <div class="card-body">
+                <h4 class="card-title">Health CheckupProgram</h4><hr>
+                <small>           3 days ago</small>
+                <p class="card-text">Promotes a free of cost, would help participants t reduce other risk factors for developing any heath problems.</p>
+                @if (User.IsInRole("Admin"))
+                {
+                    <h6><a href="#" role="navigation">Read More >> </a> | <a href="#" role="navigation">@Html.ActionLink("Manage Events", "Create", "EventInfoes") </a> </h6>
+                }
+                @if (User.IsInRole("Users"))
+                {
+                    <h6><a href="#" role="navigation">Read More >> </a> | <a href="#" role="navigation">@Html.ActionLink("Register", "Create", "EventRegistrations") </a> </h6>
+                }
+            </div>
+        </div>
+        @*}*@
+    </div>
+</div>

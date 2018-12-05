@@ -1,0 +1,104 @@
+﻿@model Salutem_Version3.Models.Event
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Event Details</h2>
+<script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1&appId=257305918316284&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EventName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventStartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventStartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventEndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventEndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventLocation)
+        </dd>
+
+    </dl>
+</div>
+
+@if (!User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Back to List", "UserIndex")
+    </p>
+}
+else
+{
+    @Html.ActionLink("Back to List", "Index")
+
+
+}
+@* Socail media implementattion *@
+<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-size="large" data-mobile-iframe="true">
+    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a>@*src=sdkpreparse*@
+</div>
+
+<a href="https://twitter.com/share?ref_src=@HttpContext.Current.Request.Url.AbsoluteUri" class="twitter-share-button" data-show-count="false">Tweet</a>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<a href="https://plus.google.com/share?url=@HttpContext.Current.Request.Url.AbsoluteUri" onclick="javascript:window.open(this.href,
+  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+    <img src="https://www.gstatic.com/images/icons/gplus-32.png" alt="Share on Google+" />
+</a>
+<script>
+    FB.ui({
+        method: 'apprequests',
+        message: 'Its ypur turn',
+        to: 'raut145@gmail.com'
+    }, function (response) {
+        console.log(response);
+    });
+</script>
